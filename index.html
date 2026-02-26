@@ -208,16 +208,16 @@
         FACE_DEPTH_SCALE: 2.5,
         COLOR_LERP_SPEED: 0.04,
         AMBIENT_PARTICLES: 200,
-        PARTICLE_SIZE_BASE: 10,
-        PARTICLE_SIZE_VARIANCE: 6,
+        PARTICLE_SIZE_BASE: 3,
+        PARTICLE_SIZE_VARIANCE: 2,
     };
 
     const MODES = [
-        { name: 'Form',          offsetScale: 0.06, springForce: 0.06, damping: 0.88 },
-        { name: 'Constellation', offsetScale: 0.04, springForce: 0.07, damping: 0.86 },
-        { name: 'Nebula',        offsetScale: 0.30, springForce: 0.03, damping: 0.92 },
-        { name: 'Pulse',         offsetScale: 0.06, springForce: 0.06, damping: 0.88 },
-        { name: 'Vortex',        offsetScale: 0.15, springForce: 0.05, damping: 0.90 },
+        { name: 'Form',          offsetScale: 0.03, springForce: 0.06, damping: 0.88 },
+        { name: 'Constellation', offsetScale: 0.02, springForce: 0.07, damping: 0.86 },
+        { name: 'Nebula',        offsetScale: 0.20, springForce: 0.03, damping: 0.92 },
+        { name: 'Pulse',         offsetScale: 0.03, springForce: 0.06, damping: 0.88 },
+        { name: 'Vortex',        offsetScale: 0.08, springForce: 0.05, damping: 0.90 },
     ];
 
     // Face contour landmark indices for constellation lines
@@ -274,7 +274,7 @@
             float pulse = 1.0 + sin(uTime * 2.0 + aPhase) * 0.1;
 
             vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-            gl_PointSize = aSize * pulse * (200.0 / -mvPosition.z);
+            gl_PointSize = aSize * pulse * (80.0 / -mvPosition.z);
             gl_PointSize = max(gl_PointSize, 1.0);
             gl_Position = projectionMatrix * mvPosition;
         }
@@ -293,8 +293,8 @@
             // Soft circular particle with glowing edge falloff
             float alpha = smoothstep(0.5, 0.1, dist) * vAlpha;
 
-            // Bright core
-            float core = exp(-dist * 10.0) * 0.4;
+            // Subtle core highlight
+            float core = exp(-dist * 12.0) * 0.2;
 
             vec3 finalColor = vColor + vec3(core);
             gl_FragColor = vec4(finalColor, alpha);
